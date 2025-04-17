@@ -23,9 +23,10 @@
     }
 
     h1 {
-      font-size: 2.2rem;
+      font-size: 6vw; /* Dynamique pour s'ajuster aux tailles d'écran */
       margin-bottom: 30px;
       color: #fff;
+      white-space: nowrap; /* Empêche la coupure du texte */
     }
 
     #codeDisplay {
@@ -138,6 +139,18 @@
       color: #4CAF50;
       margin-bottom: 10px;
       font-weight: bold;
+      font-size: 4vw; /* Dynamique et optimisé pour mobile */
+    }
+
+    /* Ajustement pour les petits écrans */
+    @media screen and (max-width: 600px) {
+      h1 {
+        font-size: 8vw; /* Taille plus petite sur les écrans mobiles */
+      }
+
+      .success {
+        font-size: 5vw; /* Réduit la taille du texte pour plus de lisibilité */
+      }
     }
   </style>
 </head>
@@ -200,13 +213,11 @@
         document.querySelector("h1").textContent = "🎉 Congratulations ! 🎉";
 
         confetti({
-        particleCount: 100,
-        spread: 160,
-        origin: { x: 0.5, y: 0.5 }
-      });
+          particleCount: 100,
+          spread: 160,
+          origin: { x: 0.5, y: 0.5 }
+        });
 
-
-        
         result.innerHTML = `
           <div class="success">✅ Code correct! Here's your treasure:</div>
           <a href="${pdfLink}" target="_blank">📜 Discover the Treasure !</a>`;
