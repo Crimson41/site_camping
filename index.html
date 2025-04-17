@@ -1,53 +1,198 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Entrez le code secret</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enter the Secret Code</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> <!-- Font moderne -->
   <style>
+    /* Global styles */
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Poppins', sans-serif;
+      background: #2C2C2C; /* Sombre gris, pas trop noir */
+      color: #E0E0E0; /* Texte clair */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      margin: 0;
+      padding: 0 15px;
       text-align: center;
     }
-    input, button {
-      padding: 10px;
-      margin-top: 10px;
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+      color: #fff;
+      letter-spacing: 1px;
+      font-weight: 600;
     }
+
+    #codeDisplay {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background-color: #444;
+      color: #E0E0E0;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 350px;
+    }
+
+    .button, button {
+      padding: 15px;
+      margin: 5px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #444;
+      color: #E0E0E0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover, .button:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    input:focus {
+      border-color: #4CAF50;
+      background-color: #555;
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 1.2rem;
+      animation: slideUp 0.5s ease-out;
+    }
+
     #result a {
       display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #4CAF50;
+      padding: 12px 24px;
+      background: linear-gradient(45deg, #4CAF50, #2d8b3e);
       color: white;
       text-decoration: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease, transform 0.3s ease;
     }
+
+    #result a:hover {
+      background-color: #45a049;
+      transform: scale(1.05);
+    }
+
+    .error {
+      color: #f44336;
+    }
+
+    /* Animations */
+    .loading {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #E0E0E0;
+      border-top: 3px solid #4CAF50;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes slideUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 500px) {
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      input, button {
+        max-width: 90%;
+      }
+
+      #result a {
+        font-size: 1rem;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <h1>Entrez le code secret 🕵️‍♂️</h1>
-  <input type="text" id="codeInput" placeholder="Code...">
-  <button onclick="checkCode()">Valider</button>
+  <h1>Enter the Secret Code 🕵️‍♂️</h1>
+
+  <div id="codeDisplay">____</div> <!-- Display code entered -->
+
+  <!-- Numeric keypad -->
+  <div>
+    <button class="button" onclick="addNumber(1)">1</button>
+    <button class="button" onclick="addNumber(2)">2</button>
+    <button class="button" onclick="addNumber(3)">3</button><br>
+    <button class="button" onclick="addNumber(4)">4</button>
+    <button class="button" onclick="addNumber(5)">5</button>
+    <button class="button" onclick="addNumber(6)">6</button><br>
+    <button class="button" onclick="addNumber(7)">7</button>
+    <button class="button" onclick="addNumber(8)">8</button>
+    <button class="button" onclick="addNumber(9)">9</button><br>
+    <button class="button" onclick="addNumber(0)">0</button>
+    <button class="button" onclick="clearCode()">Clear</button>
+  </div>
+
+  <button onclick="checkCode()">Submit</button>
   <div id="result"></div>
 
   <script>
-    const bonCode = "Paques25";
-    const lienPDF = "https://drive.google.com/file/d/1sJUqwKTChP3_vq65TFk1DfMF44tcxbey/view?usp=drive_link";
+    const correctCode = "3743"; // New code
+    const pdfLink = "https://drive.google.com/file/d/13X_8NyzmBRJbggeyB1vJIzjAamOsji-t/view?usp=sharing";
+
+    let enteredCode = ""; // Store the code entered by the user
+
+    function addNumber(num) {
+      if (enteredCode.length < 4) {
+        enteredCode += num; // Add digit to the code
+        document.getElementById("codeDisplay").textContent = enteredCode.padEnd(4, "•"); // Display the code with placeholder
+      }
+    }
+
+    function clearCode() {
+      enteredCode = ""; // Clear the entered code
+      document.getElementById("codeDisplay").textContent = "____"; // Reset display
+    }
 
     function checkCode() {
-      const input = document.getElementById("codeInput").value.trim();
       const result = document.getElementById("result");
 
-      if (input.toLowerCase() === bonCode.toLowerCase()) {
-        result.innerHTML = `<a href="${lienPDF}" target="_blank">📜 Télécharger le trésor</a>`;
-      } else {
-        result.innerHTML = "❌ Code incorrect. Essaie encore !";
-      }
+      // Clear previous results
+      result.innerHTML = "";
+
+      // Show loading animation
+      result.innerHTML = "<div class='loading'></div>";
+
+      // Simulate a delay to show loading spinner
+      setTimeout(() => {
+        if (enteredCode === correctCode) {
+          result.innerHTML = `<a href="${pdfLink}" target="_blank">📜 Discover the treasure !</a>`;
+          result.classList.remove('error');
+        } else {
+          result.innerHTML = "❌ Incorrect code. Try again!";
+          result.classList.add('error');
+        }
+      }, 500); // Delay to simulate loading time
     }
   </script>
 </body>
