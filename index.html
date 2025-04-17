@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enter the Secret Code</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> <!-- Font moderne -->
   <style>
     /* Global styles */
     body {
       font-family: 'Poppins', sans-serif;
-      background: #2C2C2C;
-      color: #E0E0E0;
+      background: #2C2C2C; /* Sombre gris, pas trop noir */
+      color: #E0E0E0; /* Texte clair */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,20 +30,23 @@
     }
 
     #codeDisplay {
-      font-size: 2rem;
+      font-size: 2.5rem; /* Agrandir la taille du texte */
       margin-bottom: 20px;
-      padding: 10px 20px;
+      padding: 15px 10px; /* Un peu de padding pour espacer */
       background-color: #444;
       color: #E0E0E0;
       border-radius: 10px;
-      width: 100%;
-      max-width: 350px;
+      width: 280px; /* Limiter la largeur de l'input à la taille des 4 chiffres */
+      max-width: 100%;
+      text-align: center;
     }
 
     .button, button {
-      padding: 40px;
-      margin: 5px;
-      font-size: 1.5rem;
+      padding: 25px; /* Agrandir le padding pour rendre les boutons plus grands */
+      font-size: 1.8rem; /* Agrandir la taille de la police */
+      width: 70px; /* Fixer une largeur pour les boutons */
+      height: 70px; /* Fixer une hauteur pour les boutons */
+      margin: 5px; /* Espacement entre les boutons */
       border-radius: 8px;
       border: 1px solid #444;
       background-color: #444;
@@ -119,38 +122,21 @@
     /* Mobile responsiveness */
     @media (max-width: 500px) {
       h1 {
-        font-size: 1.7rem;
+        font-size: 1.8rem; /* Agrandir légèrement le titre sur mobile */
       }
 
       input, button {
-        max-width: 90%;
-        font-size: 1.5rem;
-        padding: 12px;
-      }
-
-      .button {
-        font-size: 1.4rem;
-        padding: 12px;
-      }
-
-      #codeDisplay {
-        font-size: 1.5rem;
+        width: 100%; /* S'assurer que les éléments prennent toute la largeur disponible */
+        font-size: 1.5rem; /* Augmenter la taille de la police pour les petites tailles */
       }
 
       #result a {
-        font-size: 1rem;
-      }
-    }
-
-    /* Large screens (optional improvements) */
-    @media (min-width: 1000px) {
-      .button {
-        font-size: 1.8rem;
-        padding: 18px;
+        font-size: 1.2rem; /* Agrandir un peu les liens */
       }
 
+      /* Réduire la largeur de l'input pour mobile */
       #codeDisplay {
-        font-size: 2.5rem;
+        width: 80%; /* Réduire l'input à 80% de la largeur de l'écran */
       }
     }
 
