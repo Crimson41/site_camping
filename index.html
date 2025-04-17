@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Enter the Secret Code</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
@@ -37,6 +39,19 @@
       max-width: 100%;
       text-align: center;
       letter-spacing: 8px;
+      transition: transform 0.3s;
+    }
+
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
     }
 
     .keypad {
@@ -93,19 +108,22 @@
     }
 
     #result {
-      margin-top: 25px;
+      margin: 15px 0;
       font-size: 1.2rem;
+      min-height: 30px;
+      transition: all 0.3s ease;
     }
 
     #result a {
       display: inline-block;
-      padding: 12px 24px;
+      padding: 10px 20px;
       background: linear-gradient(45deg, #4CAF50, #2d8b3e);
       color: white;
       text-decoration: none;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
+      transition: transform 0.2s ease;
+      margin-top: 10px;
     }
 
     #result a:hover {
@@ -115,11 +133,18 @@
     .error {
       color: #f44336;
     }
+
+    .success {
+      color: #4CAF50;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
   <h1>Enter the Secret Code 🕵️‍♂️</h1>
+  <div id="result"></div>
   <div id="codeDisplay">____</div>
 
   <div class="keypad">
@@ -137,39 +162,65 @@
     <button class="button submit-button" onclick="checkCode()">Submit</button>
   </div>
 
-  <div id="result"></div>
-
   <script>
     const correctCode = "3743";
     const pdfLink = "https://drive.google.com/file/d/13X_8NyzmBRJbggeyB1vJIzjAamOsji-t/view?usp=sharing";
     let enteredCode = "";
-
+    let success = false;
+  
     function addNumber(num) {
+      if (success) return;
       if (enteredCode.length < 4) {
-        enteredCode += num;
+        enteredCode += num.toString();
         updateDisplay();
+        document.getElementById("result").innerHTML = "";
       }
     }
-
+  
     function clearCode() {
+      if (success) return;
       enteredCode = "";
       updateDisplay();
       document.getElementById("result").innerHTML = "";
     }
-
+  
     function updateDisplay() {
-      document.getElementById("codeDisplay").textContent = enteredCode.padEnd(4, "_");
+      const display = document.getElementById("codeDisplay");
+      display.textContent = enteredCode.padEnd(4, "_");
     }
-
+  
     function checkCode() {
+      const display = document.getElementById("codeDisplay");
       const result = document.getElementById("result");
+  
       if (enteredCode === correctCode) {
-        result.innerHTML = `<a href="${pdfLink}" target="_blank">📜 Discover the Treasure !</a>`;
+        success = true;
+        document.querySelector(".keypad").style.display = "none";
+        display.style.display = "none";
+        document.querySelector("h1").textContent = "🎉 Congratulations ! 🎉";
+
+        confetti({
+        particleCount: 100,
+        spread: 160,
+        origin: { x: 0.5, y: 0.5 }
+      });
+
+
+        
+        result.innerHTML = `
+          <div class="success">✅ Code correct! Here's your treasure:</div>
+          <a href="${pdfLink}" target="_blank">📜 Discover the Treasure !</a>`;
       } else {
+        display.classList.add("shake");
+        setTimeout(() => {
+          display.classList.remove("shake");
+        }, 400);
         result.innerHTML = `<span class="error">❌ Incorrect code. Try again!</span>`;
+        enteredCode = "";
+        updateDisplay();
       }
     }
   </script>
-
+  
 </body>
 </html>
