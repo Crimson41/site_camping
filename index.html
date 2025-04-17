@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Enter the Secret Code</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
   <style>
+    :root {
+      --primary-bg: #2C2C2C;
+      --primary-color: #E0E0E0;
+      --button-bg: #444;
+      --button-hover-bg: #555;
+      --success-bg: #4CAF50;
+      --error-bg: #f44336;
+      --button-radius: 10px;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: #2C2C2C;
-      color: #E0E0E0;
+      background: var(--primary-bg);
+      color: var(--primary-color);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -23,19 +32,19 @@
     }
 
     h1 {
-      font-size: 6vw; /* Dynamique pour s'ajuster aux tailles d'écran */
+      font-size: 6vw;
       margin-bottom: 30px;
       color: #fff;
-      white-space: nowrap; /* Empêche la coupure du texte */
+      white-space: nowrap;
     }
 
     #codeDisplay {
       font-size: 2.5rem;
       margin-bottom: 20px;
       padding: 15px 10px;
-      background-color: #444;
-      color: #E0E0E0;
-      border-radius: 10px;
+      background-color: var(--button-bg);
+      color: var(--primary-color);
+      border-radius: var(--button-radius);
       width: 220px;
       max-width: 100%;
       text-align: center;
@@ -68,16 +77,16 @@
       font-size: 1.6rem;
       width: 80px;
       height: 80px;
-      border-radius: 10px;
-      border: 1px solid #444;
-      background-color: #444;
-      color: #E0E0E0;
+      border-radius: var(--button-radius);
+      border: 1px solid var(--button-bg);
+      background-color: var(--button-bg);
+      color: var(--primary-color);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .button:hover {
-      background-color: #555;
+      background-color: var(--button-hover-bg);
       transform: scale(1.05);
     }
 
@@ -89,7 +98,7 @@
     }
 
     .clear-button {
-      background-color: #f44336;
+      background-color: var(--error-bg);
       color: white;
     }
 
@@ -100,7 +109,7 @@
     .submit-button {
       grid-column: span 3;
       width: 100%;
-      background-color: #4CAF50;
+      background-color: var(--success-bg);
       color: white;
     }
 
@@ -118,7 +127,7 @@
     #result a {
       display: inline-block;
       padding: 10px 20px;
-      background: linear-gradient(45deg, #4CAF50, #2d8b3e);
+      background: linear-gradient(45deg, var(--success-bg), #2d8b3e);
       color: white;
       text-decoration: none;
       border-radius: 8px;
@@ -132,24 +141,23 @@
     }
 
     .error {
-      color: #f44336;
+      color: var(--error-bg);
     }
 
     .success {
-      color: #4CAF50;
+      color: var(--success-bg);
       margin-bottom: 10px;
       font-weight: bold;
-      font-size: 4vw; /* Dynamique et optimisé pour mobile */
+      font-size: 4vw;
     }
 
-    /* Ajustement pour les petits écrans */
     @media screen and (max-width: 600px) {
       h1 {
-        font-size: 8vw; /* Taille plus petite sur les écrans mobiles */
+        font-size: 8vw;
       }
 
       .success {
-        font-size: 5vw; /* Réduit la taille du texte pour plus de lisibilité */
+        font-size: 5vw;
       }
     }
   </style>
@@ -161,16 +169,16 @@
   <div id="codeDisplay">____</div>
 
   <div class="keypad">
-    <button class="button" onclick="addNumber(1)">1</button>
-    <button class="button" onclick="addNumber(2)">2</button>
-    <button class="button" onclick="addNumber(3)">3</button>
-    <button class="button" onclick="addNumber(4)">4</button>
-    <button class="button" onclick="addNumber(5)">5</button>
-    <button class="button" onclick="addNumber(6)">6</button>
-    <button class="button" onclick="addNumber(7)">7</button>
-    <button class="button" onclick="addNumber(8)">8</button>
-    <button class="button" onclick="addNumber(9)">9</button>
-    <button class="button" onclick="addNumber(0)">0</button>
+    <button class="button" onclick="addNumber(1)" aria-label="Add number 1">1</button>
+    <button class="button" onclick="addNumber(2)" aria-label="Add number 2">2</button>
+    <button class="button" onclick="addNumber(3)" aria-label="Add number 3">3</button>
+    <button class="button" onclick="addNumber(4)" aria-label="Add number 4">4</button>
+    <button class="button" onclick="addNumber(5)" aria-label="Add number 5">5</button>
+    <button class="button" onclick="addNumber(6)" aria-label="Add number 6">6</button>
+    <button class="button" onclick="addNumber(7)" aria-label="Add number 7">7</button>
+    <button class="button" onclick="addNumber(8)" aria-label="Add number 8">8</button>
+    <button class="button" onclick="addNumber(9)" aria-label="Add number 9">9</button>
+    <button class="button" onclick="addNumber(0)" aria-label="Add number 0">0</button>
     <button class="button wide-button clear-button" onclick="clearCode()">Clear</button>
     <button class="button submit-button" onclick="checkCode()">Submit</button>
   </div>
@@ -180,7 +188,7 @@
     const pdfLink = "https://drive.google.com/file/d/13X_8NyzmBRJbggeyB1vJIzjAamOsji-t/view?usp=sharing";
     let enteredCode = "";
     let success = false;
-  
+
     function addNumber(num) {
       if (success) return;
       if (enteredCode.length < 4) {
@@ -189,23 +197,23 @@
         document.getElementById("result").innerHTML = "";
       }
     }
-  
+
     function clearCode() {
       if (success) return;
       enteredCode = "";
       updateDisplay();
       document.getElementById("result").innerHTML = "";
     }
-  
+
     function updateDisplay() {
       const display = document.getElementById("codeDisplay");
       display.textContent = enteredCode.padEnd(4, "_");
     }
-  
+
     function checkCode() {
       const display = document.getElementById("codeDisplay");
       const result = document.getElementById("result");
-  
+
       if (enteredCode === correctCode) {
         success = true;
         document.querySelector(".keypad").style.display = "none";
@@ -213,10 +221,12 @@
         document.querySelector("h1").textContent = "🎉 Congratulations ! 🎉";
 
         confetti({
-          particleCount: 100,
-          spread: 160,
-          origin: { x: 0.5, y: 0.5 }
-        });
+    particleCount: 200,  // Plus de particules pour plus d'impact
+    spread: 180, 
+    origin: { x: 0.5, y: 0.5 },
+    scalar: 1.2,  // Plus grand
+    ticks: 200     // Plus de durée
+  });
 
         result.innerHTML = `
           <div class="success">✅ Code correct! Here's your treasure:</div>
