@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Enter the Secret Code</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> <!-- Font moderne -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* Global styles */
     body {
       font-family: 'Poppins', sans-serif;
-      background: #2C2C2C; /* Sombre gris, pas trop noir */
-      color: #E0E0E0; /* Texte clair */
+      background: #2C2C2C;
+      color: #E0E0E0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -23,59 +22,64 @@
 
     h1 {
       font-size: 2.2rem;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       color: #fff;
-      letter-spacing: 1px;
-      font-weight: 600;
     }
 
     #codeDisplay {
-      font-size: 2.5rem; /* Agrandir la taille du texte */
+      font-size: 2.5rem;
       margin-bottom: 20px;
-      padding: 15px 10px; /* Un peu de padding pour espacer */
+      padding: 15px 10px;
       background-color: #444;
       color: #E0E0E0;
       border-radius: 10px;
-      width: 280px; /* Limiter la largeur de l'input à la taille des 4 chiffres */
+      width: 220px;
       max-width: 100%;
       text-align: center;
+      letter-spacing: 8px;
     }
 
-    .button, button {
-      padding: 25px; /* Agrandir le padding pour rendre les boutons plus grands */
-      font-size: 1.8rem; /* Agrandir la taille de la police */
-      width: 70px; /* Fixer une largeur pour les boutons */
-      height: 70px; /* Fixer une hauteur pour les boutons */
-      margin: 5px; /* Espacement entre les boutons */
-      border-radius: 8px;
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .button {
+      padding: 20px;
+      font-size: 1.6rem;
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
       border: 1px solid #444;
       background-color: #444;
       color: #E0E0E0;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
     }
 
-    button {
+    .button:hover {
+      background-color: #555;
+      transform: scale(1.05);
+    }
+
+    .wide-button {
+      grid-column: span 2;
+      width: 170px;
+      font-size: 1.3rem;
       background-color: #4CAF50;
       color: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
     }
 
-    button:hover, .button:hover {
+    .wide-button:hover {
       background-color: #45a049;
-      transform: scale(1.05);
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    input:focus {
-      border-color: #4CAF50;
-      background-color: #555;
     }
 
     #result {
-      margin-top: 30px;
+      margin-top: 25px;
       font-size: 1.2rem;
-      animation: slideUp 0.5s ease-out;
     }
 
     #result a {
@@ -86,123 +90,71 @@
       text-decoration: none;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     #result a:hover {
-      background-color: #45a049;
       transform: scale(1.05);
     }
 
     .error {
       color: #f44336;
     }
-
-    /* Animations */
-    .loading {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      border: 3px solid #E0E0E0;
-      border-top: 3px solid #4CAF50;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes slideUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 500px) {
-      h1 {
-        font-size: 1.8rem; /* Agrandir légèrement le titre sur mobile */
-      }
-
-      input, button {
-        width: 100%; /* S'assurer que les éléments prennent toute la largeur disponible */
-        font-size: 1.5rem; /* Augmenter la taille de la police pour les petites tailles */
-      }
-
-      #result a {
-        font-size: 1.2rem; /* Agrandir un peu les liens */
-      }
-
-      /* Réduire la largeur de l'input pour mobile */
-      #codeDisplay {
-        width: 80%; /* Réduire l'input à 80% de la largeur de l'écran */
-      }
-    }
-
   </style>
 </head>
 <body>
+
   <h1>Enter the Secret Code 🕵️‍♂️</h1>
+  <div id="codeDisplay">____</div>
 
-  <div id="codeDisplay">____</div> <!-- Display code entered -->
-
-  <!-- Numeric keypad -->
-  <div>
+  <div class="keypad">
     <button class="button" onclick="addNumber(1)">1</button>
     <button class="button" onclick="addNumber(2)">2</button>
-    <button class="button" onclick="addNumber(3)">3</button><br>
+    <button class="button" onclick="addNumber(3)">3</button>
     <button class="button" onclick="addNumber(4)">4</button>
     <button class="button" onclick="addNumber(5)">5</button>
-    <button class="button" onclick="addNumber(6)">6</button><br>
+    <button class="button" onclick="addNumber(6)">6</button>
     <button class="button" onclick="addNumber(7)">7</button>
     <button class="button" onclick="addNumber(8)">8</button>
-    <button class="button" onclick="addNumber(9)">9</button><br>
+    <button class="button" onclick="addNumber(9)">9</button>
     <button class="button" onclick="addNumber(0)">0</button>
-    <button class="button" onclick="clearCode()">Clear</button>
+    <button class="button wide-button" onclick="clearCode()">Clear</button>
+    <button class="button wide-button" onclick="checkCode()">Submit</button>
   </div>
 
-  <button onclick="checkCode()">Submit</button>
   <div id="result"></div>
 
   <script>
-    const correctCode = "3743"; // New code
+    const correctCode = "3743";
     const pdfLink = "https://drive.google.com/file/d/13X_8NyzmBRJbggeyB1vJIzjAamOsji-t/view?usp=sharing";
-
-    let enteredCode = ""; // Store the code entered by the user
+    let enteredCode = "";
 
     function addNumber(num) {
       if (enteredCode.length < 4) {
-        enteredCode += num; // Add digit to the code
-        document.getElementById("codeDisplay").textContent = enteredCode.padEnd(4, "•"); // Display the code with placeholder
+        enteredCode += num;
+        updateDisplay();
       }
     }
 
     function clearCode() {
-      enteredCode = ""; // Clear the entered code
-      document.getElementById("codeDisplay").textContent = "____"; // Reset display
+      enteredCode = "";
+      updateDisplay();
+      document.getElementById("result").innerHTML = "";
+    }
+
+    function updateDisplay() {
+      document.getElementById("codeDisplay").textContent = enteredCode.padEnd(4, "_");
     }
 
     function checkCode() {
       const result = document.getElementById("result");
-
-      // Clear previous results
-      result.innerHTML = "";
-
-      // Show loading animation
-      result.innerHTML = "<div class='loading'></div>";
-
-      // Simulate a delay to show loading spinner
-      setTimeout(() => {
-        if (enteredCode === correctCode) {
-          result.innerHTML = `<a href="${pdfLink}" target="_blank">📜 Discover the treasure !</a>`;
-          result.classList.remove('error');
-        } else {
-          result.innerHTML = "❌ Incorrect code. Try again!";
-          result.classList.add('error');
-        }
-      }, 500); // Delay to simulate loading time
+      if (enteredCode === correctCode) {
+        result.innerHTML = `<a href="${pdfLink}" target="_blank">✔ Access the PDF</a>`;
+      } else {
+        result.innerHTML = `<span class="error">❌ Incorrect code. Try again!</span>`;
+      }
     }
   </script>
+
 </body>
 </html>
