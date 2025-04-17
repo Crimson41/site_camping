@@ -44,6 +44,7 @@
       grid-template-columns: repeat(3, 80px);
       gap: 10px;
       margin-bottom: 15px;
+      justify-content: center;
     }
 
     .button {
@@ -68,12 +69,26 @@
       grid-column: span 2;
       width: 170px;
       font-size: 1.3rem;
-      background-color: #4CAF50;
-      color: white;
       font-weight: bold;
     }
 
-    .wide-button:hover {
+    .clear-button {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .clear-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .submit-button {
+      grid-column: span 3;
+      width: 100%;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .submit-button:hover {
       background-color: #45a049;
     }
 
@@ -118,8 +133,8 @@
     <button class="button" onclick="addNumber(8)">8</button>
     <button class="button" onclick="addNumber(9)">9</button>
     <button class="button" onclick="addNumber(0)">0</button>
-    <button class="button wide-button" onclick="clearCode()">Clear</button>
-    <button class="button wide-button" onclick="checkCode()">Submit</button>
+    <button class="button wide-button clear-button" onclick="clearCode()">Clear</button>
+    <button class="button submit-button" onclick="checkCode()">Submit</button>
   </div>
 
   <div id="result"></div>
